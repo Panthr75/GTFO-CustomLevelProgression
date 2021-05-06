@@ -14,6 +14,7 @@ namespace CustomLevelProgression.Networking
 
         public ExtendedPlayerAgent Owner { get;  }
         public override ushort Key => Owner?.m_replicator?.Key ?? 0;
+        
 
         public NET_ProgressionReplicator(ExtendedPlayerAgent owner)
         {

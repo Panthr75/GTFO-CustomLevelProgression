@@ -27,8 +27,8 @@ namespace CustomLevelProgression.Patches.SNet
             {
                 if (ExtendedPlayerAgent.TryGet(player.PlayerAgent.TryCast<PlayerAgent>(), out ExtendedPlayerAgent p))
                 {
-                    UnityEngine.Debug.Log("BRRR DELETION YEETUS");
                     ExtendedPlayerAgent.Remove(p.WrappedObj);
+                    p.InternalOnDestroyed();
                 }
             }
         }
