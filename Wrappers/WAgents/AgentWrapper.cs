@@ -4,10 +4,11 @@ using Detection;
 using SNetwork;
 using UnityEngine;
 using CustomLevelProgression.Wrappers.WUnityEngine;
+using CustomLevelProgression.Wrappers.WCullingSystem;
 
 namespace CustomLevelProgression.Wrappers.WAgents
 {
-    public class AgentWrapper : MonoBehaviourWrapper
+    public class AgentWrapper : MonoBehaviourWrapper, IC_MovingCullerOwnerWrapper
     {
         public new Agent WrappedObj => (Agent)base.obj;
 

@@ -2,6 +2,8 @@
 using AIGraph;
 using CullingSystem;
 using CustomLevelProgression.Wrappers.WAgents;
+using CustomLevelProgression.Wrappers.WGear;
+using CustomLevelProgression.Wrappers.WSNetwork;
 using FX_EffectSystem;
 using GameData;
 using LevelGeneration;
@@ -13,7 +15,7 @@ using UnityEngine;
 
 namespace CustomLevelProgression.Wrappers.WPlayer
 {
-    public class PlayerAgentWrapper : AgentWrapper
+    public class PlayerAgentWrapper : AgentWrapper, SNet_IPlayerAgentWrapper, iResourcePackReceiverWrapper, IEffectVolumeTargetWrapper, INM_NoiseMakerWrapper
     {
         public new PlayerAgent WrappedObj => (PlayerAgent)base.obj;
 

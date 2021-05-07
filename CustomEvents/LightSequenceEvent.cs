@@ -34,13 +34,7 @@ namespace CustomLevelProgression.CustomEvents
 
         public void Activate(uint sequenceID)
         {
-            GameInfo.StartCoroutine(ActivateSequence(sequenceID), true);
-        }
-
-        private IEnumerator ActivateSequence(uint sequenceID)
-        {
-            LightSequenceManager.StartSequence(sequenceID);
-            yield return null;
+            LightSequenceManager.ActivateSequence(sequenceID);
         }
     }
 }

@@ -2,6 +2,7 @@
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
 using CustomLevelProgression.IL2CPP;
+using CustomLevelProgression.Lights;
 using CustomLevelProgression.Patches;
 using HarmonyLib;
 using System;
@@ -24,6 +25,7 @@ namespace CustomLevelProgression
         {
             Il2CppTypeRegistry.Load();
             Il2CppTypeRegistry.Register<CoroutineHandler>();
+            Il2CppTypeRegistry.Register<LightController>();
 
             log = Log;
             harmony = new Harmony(GUID);

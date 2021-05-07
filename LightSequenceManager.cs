@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
+using LevelGeneration;
 
 namespace CustomLevelProgression
 {
     public static class LightSequenceManager
     {
-        private static Dictionary<uint, CustomLightState> states;
-
-        static LightSequenceManager()
+        public static void ActivateSequence(uint sequenceID)
         {
-            states = new Dictionary<uint, CustomLightState>();
-        }
-
-        public static void StartSequence(uint sequenceID)
-        {
-            //
+            Log.Message("Attempting to activate light sequence with id: " + sequenceID);
+            var sequence = LightSequenceDataBlock.GetBlock(sequenceID);
+            if (sequence != null)
+            {
+                Log.Message("Successfully got sequence block, activating...");
+                sequence.Apply(/*Builder.CurrentFloor*/);
+            }
         }
     }
 }

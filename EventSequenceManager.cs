@@ -71,6 +71,7 @@ namespace CustomLevelProgression
             AddEvent(new ActivateSurvivalWaveEvent());
             AddEvent(new SoundEvent());
             AddEvent(new EventSequenceEvent());
+            AddEvent(new WakeUpEnemyEvent());
         }
     }
 }

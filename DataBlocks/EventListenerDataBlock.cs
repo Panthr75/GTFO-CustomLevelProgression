@@ -11,5 +11,7 @@ namespace CustomLevelProgression.DataBlocks
 
         public bool LevelLoad_IncludeJoins { get; set; }
         public bool LevelLoad_IncludeInitialDrop { get; set; }
+
+        public int InsertCell_RequiredCount { get; set; }
     }
 }

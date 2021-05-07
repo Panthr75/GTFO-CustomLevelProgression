@@ -116,6 +116,23 @@ namespace CustomLevelProgression
             }
         }
 
+        public static LG_Area GetAreaFrom(LG_Zone zone, string areaName)
+        {
+            if (zone == null)
+                return null;
+
+            for (int areaIndex = 0; areaIndex < zone.m_areas.Count; areaIndex++)
+            {
+                var area = zone.m_areas[areaIndex];
+                if (area.m_navInfo.Suffix?.ToLower() == areaName?.ToLower())
+                {
+                    return area;
+                }
+            }
+
+            return null;
+        }
+
         public static LG_SecurityDoor GetSecurityDoorFromZone(LG_Zone zone, eLocalZoneIndex doorIndex)
         {
             if (zone == null)

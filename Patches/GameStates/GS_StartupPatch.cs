@@ -15,7 +15,7 @@ namespace CustomLevelProgression.Patches.GameStates
             EventsDataBlock.Load();
             EventSequenceDataBlock.Load();
             LightSequenceDataBlock.Load();
-            LightStatesDataBlock.Load();
+            LightStateDataBlock.Load();
         }
     }
 }

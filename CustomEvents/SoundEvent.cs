@@ -40,7 +40,7 @@ namespace CustomLevelProgression.CustomEvents
         private IEnumerator ActivateSequence(uint soundID)
         {
             CellSound.Post(soundID, ExtendedPlayerAgent.LocalPlayer.Position);
-            LightSequenceManager.StartSequence(soundID);
+            LightSequenceManager.ActivateSequence(soundID);
             yield return null;
         }
     }
