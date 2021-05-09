@@ -1,5 +1,6 @@
 ﻿using AK;
 using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate ActivateSurvivalWaveEvent");
+
             var ev = Event;
             string typeName;
             object waveID = null;

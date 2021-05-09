@@ -154,11 +154,13 @@
     <Compile Include="Patches\GameStates\GS_StopElevatorRidePatch.cs" />
     <Compile Include="Patches\LevelGen\LG_LightPatch.cs" />
     <Compile Include="Patches\LevelGen\LG_PowerGeneratorCorePatch.cs" />
+    <Compile Include="Patches\LevelGen\LG_SecurityDoorPatch.cs" />
     <Compile Include="Patches\LevelGen\LG_WardenObjective_ReactorPatch.cs" />
     <Compile Include="Patches\PatchBase.cs" />
     <Compile Include="Patches\PatchType.cs" />
     <Compile Include="Patches\SNet\SNet_GlobalManagerPatch.cs" />
     <Compile Include="Patches\SNet\SNet_ReplicationPatch.cs" />
+    <Compile Include="Patches\Warden\WardenObjectiveManager_Patch.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="ProgressionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

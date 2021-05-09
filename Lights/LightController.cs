@@ -86,6 +86,12 @@ namespace CustomLevelProgression.Lights
 
         public void ChangeState(LightStateDataBlock data, float extraTime = 0f)
         {
+            if (this.currentState != null && !this.currentState.transitioned)
+            {
+                this.SetCurrentIntensity(this.currentState.m_intensity);
+                this.SetCurrentColor(this.currentState.m_color);
+            }
+
             if (data != null)
             {
                 this.currentState = new LightState(data, this);

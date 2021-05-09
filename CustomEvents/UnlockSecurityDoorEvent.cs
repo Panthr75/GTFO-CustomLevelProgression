@@ -13,6 +13,7 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate UnlockSecurityDoorEvent");
             var ev = Event;
             string typeName;
             object layer = null;

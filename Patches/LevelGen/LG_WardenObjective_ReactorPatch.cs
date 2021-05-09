@@ -90,14 +90,15 @@ namespace CustomLevelProgression.Patches.LevelGen
             if (__instance.m_spawnEnemies && __instance.m_currentEnemyWaveIndex < __instance.m_currentWaveData.EnemyWaves.Count)
             {
                 ReactorWaveEnemyData enemyWave = __instance.m_currentWaveData.EnemyWaves[__instance.m_currentEnemyWaveIndex];
-                if (Mastermind.Current.TryGetEvent(__instance.m_enemyWaveID, out Mastermind.MastermindEvent masterMindEvent))
-                {
-                    masterMindEvent.StopEvent();
-                }
 
                 if ((double)__instance.m_currentWaveProgress > (double)enemyWave.SpawnTimeRel)
                 {
                     Debug.Log(Deb.Enemy("Reactor Spawning wave at " + (object)enemyWave.SpawnTimeRel + " with type: " + (object)enemyWave.SpawnType));
+                    if (Mastermind.Current.TryGetEvent(__instance.m_enemyWaveID, out Mastermind.MastermindEvent masterMindEvent))
+                    {
+                        masterMindEvent.StopEvent();
+                    }
+
                     ushort m_enemyWaveID;
                     switch (enemyWave.SpawnType)
                     {
@@ -125,6 +126,7 @@ namespace CustomLevelProgression.Patches.LevelGen
                             break;
                     }
                 }
+
             }
             if (!__instance.m_progressUpdateEnabled)
                 return false;

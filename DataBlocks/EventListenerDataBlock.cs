@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GameData;
+using LevelGeneration;
+using System.Collections.Generic;
 
 namespace CustomLevelProgression.DataBlocks
 {
@@ -13,5 +15,12 @@ namespace CustomLevelProgression.DataBlocks
         public bool LevelLoad_IncludeInitialDrop { get; set; }
 
         public int InsertCell_RequiredCount { get; set; }
+        public LG_LayerType InsertCell_Layer { get; set; }
+
+        public List<LG_LayerType> CompleteObjective_Layers { get; set; }
+
+        public LG_LayerType OpenSecurityDoor_Layer { get; set; }
+        public eLocalZoneIndex OpenSecurityDoor_ZoneIndex { get; set; }
+        public eLocalZoneIndex OpenSecurityDoor_BuildFromIndex { get; set; }
     }
 }

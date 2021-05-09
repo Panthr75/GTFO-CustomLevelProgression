@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
 using Enemies;
 using System;
 using System.Collections;
@@ -12,6 +13,7 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate WakeUpEnemyEvent");
             var ev = Event;
             string typeName;
             object enemyID = null;

@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
 using System;
 using System.Collections;
 
@@ -11,6 +12,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate SoundEvent");
+
             var ev = Event;
             string typeName;
             object sound = null;
@@ -34,14 +37,7 @@ namespace CustomLevelProgression.CustomEvents
 
         public void Activate(uint sound)
         {
-            GameInfo.StartCoroutine(ActivateSequence(sound), true);
-        }
-
-        private IEnumerator ActivateSequence(uint soundID)
-        {
-            CellSound.Post(soundID, ExtendedPlayerAgent.LocalPlayer.Position);
-            LightSequenceManager.ActivateSequence(soundID);
-            yield return null;
+            CellSound.Post(sound, ExtendedPlayerAgent.LocalPlayer.Position);
         }
     }
 }

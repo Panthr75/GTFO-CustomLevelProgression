@@ -25,19 +25,22 @@ namespace CustomLevelProgression.Patches.LevelGen
                         {
                             if (expedition.ExpeditionIndex == exp.expeditionIndex && expedition.Tier == exp.tier)
                             {
-                                var items = WardenObjectiveManager.Current.m_objectiveItemCollection[__instance.SpawnNode.LayerType];
-                                int count = 0;
-
-                                foreach (var item in items)
+                                if (__instance.SpawnNode.LayerType == block.InsertCell_Layer)
                                 {
-                                    var powerGen = item?.TryCast<LG_PowerGenerator_Core>();
-                                    if (powerGen != null && powerGen.ObjectiveItemSolved)
-                                        count++;
-                                }
+                                    var items = WardenObjectiveManager.Current.m_objectiveItemCollection[__instance.SpawnNode.LayerType];
+                                    int count = 0;
 
-                                if (block.InsertCell_RequiredCount == count)
-                                {
-                                    EventSequenceManager.StartSequence(block.EventSequenceOnActivate);
+                                    foreach (var item in items)
+                                    {
+                                        var powerGen = item?.TryCast<LG_PowerGenerator_Core>();
+                                        if (powerGen != null && powerGen.ObjectiveItemSolved)
+                                            count++;
+                                    }
+
+                                    if (block.InsertCell_RequiredCount == count)
+                                    {
+                                        EventSequenceManager.StartSequence(block.EventSequenceOnActivate);
+                                    }
                                 }
                                 break;
                             }

@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
 using System;
 using System.Collections;
 
@@ -11,6 +12,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate WardenIntelEvent");
+            
             var ev = Event;
             string typeName;
             object text = null;
@@ -54,6 +57,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public void Activate(string text, float displayDuration, bool isObjectiveText)
         {
+            Log.Message($"Activating WardenIntelEvent (text: {text}, displayDuration: {displayDuration}, isObjectiveText: {isObjectiveText})");
+
             var intel = GuiManager.PlayerLayer.m_wardenIntel;
             if (intel != null)
             {

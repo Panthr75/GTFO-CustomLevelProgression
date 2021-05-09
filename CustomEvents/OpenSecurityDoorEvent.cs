@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Utilities;
 using GameData;
 using LevelGeneration;
 using System;
@@ -12,6 +13,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate OpenSecurityDoorEvent");
+
             var ev = Event;
             string typeName;
             object layer = null;

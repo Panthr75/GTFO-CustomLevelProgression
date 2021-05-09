@@ -3,6 +3,7 @@ using System;
 using GameData;
 using System.Collections;
 using UnityEngine;
+using CustomLevelProgression.Utilities;
 
 namespace CustomLevelProgression.CustomEvents
 {
@@ -13,6 +14,8 @@ namespace CustomLevelProgression.CustomEvents
 
         public override void Activate(EventInfo info)
         {
+            Log.Message("Activate FogTransitionEvent");
+
             var ev = Event;
             string typeName;
             object fogID = null;

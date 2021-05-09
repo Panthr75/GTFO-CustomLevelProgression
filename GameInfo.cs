@@ -84,6 +84,17 @@ namespace CustomLevelProgression
             CoroutineHandler.Add(routine, stopIfExitLevel);
         }
 
+        public static void UnlockSecurityDoor(LG_LayerType layerType, eLocalZoneIndex doorZoneIndex, eLocalZoneIndex buildFromZoneIndex) => UnlockSecurityDoor(GetSecurityDoor(layerType, doorZoneIndex, buildFromZoneIndex));
+
+        public static void OpenSecurityDoor(LG_LayerType layerType, eLocalZoneIndex doorZoneIndex, eLocalZoneIndex buildFromZoneIndex)
+        {
+            var door = GetSecurityDoor(layerType, doorZoneIndex, buildFromZoneIndex);
+            if (door != null)
+            {
+                door.m_sync.AttemptDoorInteraction(eDoorInteractionType.Open);
+            }
+        }
+
         public static LG_SecurityDoor GetSecurityDoor(LG_LayerType layerType, eLocalZoneIndex doorZoneIndex, eLocalZoneIndex buildFromZoneIndex)
             => GetSecurityDoorFromZone(GetZoneFromLayer(GetLayerFromFloor(Builder.CurrentFloor, layerType), buildFromZoneIndex), doorZoneIndex);
 
