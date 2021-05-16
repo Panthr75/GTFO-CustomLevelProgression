@@ -16,8 +16,12 @@ namespace CustomLevelProgression.Lights
 
         private LG_Light light;
         private LG_LightAnimator animator;
+
         private Color currentColor;
         private float currentIntensity;
+
+        private float startIntensity;
+
         private LightState currentState;
         private bool setup = false;
 
@@ -35,6 +39,8 @@ namespace CustomLevelProgression.Lights
         public eLocalZoneIndex ZoneIndex => zone.LocalIndex;
         public LG_LayerType LayerType => layer.m_type;
 
+        public float StartIntensity => startIntensity;
+
         private void Start()
         {
             if (!setup)
@@ -43,6 +49,7 @@ namespace CustomLevelProgression.Lights
                 this.animator = GetComponent<LG_LightAnimator>() ?? this.light?.GetC_Light()?.gameObject?.GetComponent<LG_LightAnimator>();
                 this.currentColor = this.light.m_color;
                 this.currentIntensity = this.light.GetIntensity();
+                this.startIntensity = this.currentIntensity;
 
                 this.area = this.light?.GetC_Light()?.m_sourceNode?.CourseNode?.m_area;
                 this.zone = this.area?.m_zone;
@@ -86,10 +93,9 @@ namespace CustomLevelProgression.Lights
 
         public void ChangeState(LightStateDataBlock data, float extraTime = 0f)
         {
-            if (this.currentState != null && !this.currentState.transitioned)
+            if (this.currentState != null && !this.currentState.moveToNextState)
             {
-                this.SetCurrentIntensity(this.currentState.m_intensity);
-                this.SetCurrentColor(this.currentState.m_color);
+                this.currentState.ForceEnd();
             }
 
             if (data != null)

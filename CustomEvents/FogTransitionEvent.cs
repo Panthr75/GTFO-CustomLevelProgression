@@ -4,6 +4,7 @@ using GameData;
 using System.Collections;
 using UnityEngine;
 using CustomLevelProgression.Utilities;
+using CustomLevelProgression.Parsers;
 
 namespace CustomLevelProgression.CustomEvents
 {
@@ -16,45 +17,20 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate FogTransitionEvent");
 
-            var ev = Event;
-            string typeName;
-            object fogID = null;
-            object transitionDelay = null;
-            object transitionDuration = null;
+            string fogID;
+            string transitionDelay;
+            string transitionDuration;
 
-            if (ev.Parameters.TryGetValue("FogID", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("FogID", out fogID);
-
-                if (fogID != null)
-                    fogID = Convert.ChangeType(fogID, type);
-            }
-
-            if (ev.Parameters.TryGetValue("TransitionDelay", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("TransitionDelay", out transitionDelay);
-
-                if (transitionDelay != null)
-                    transitionDelay = Convert.ChangeType(transitionDelay, type);
-            }
-
-            if (ev.Parameters.TryGetValue("TransitionDuration", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("TransitionDuration", out transitionDuration);
-
-                if (transitionDuration != null)
-                    transitionDuration = Convert.ChangeType(transitionDuration, type);
-            }
+            info.Parameters.TryGetValue("FogID", out fogID);
+            info.Parameters.TryGetValue("TransitionDelay", out transitionDelay);
+            info.Parameters.TryGetValue("TransitionDuration", out transitionDuration);
 
             Activate(fogID, transitionDelay, transitionDuration);
         }
 
-        public void Activate(object fogID = null, object transitionDelay = null, object transitionDuration = null)
+        public void Activate(string fogID = null, string transitionDelay = null, string transitionDuration = null)
         {
-            Activate(fogID == null ? 0U : (uint)fogID, transitionDelay == null ? 0.0f : (float)transitionDelay, transitionDuration == null ? 0.0f : (float)transitionDuration);
+            Activate(DataBlockIDParser<FogSettingsDataBlock>.Parse(fogID), FloatParser.Parse(transitionDelay), FloatParser.Parse(transitionDuration));
         }
 
         public void Activate(uint fogID, float transitionDelay, float transitionDuration)
@@ -70,23 +46,7 @@ namespace CustomLevelProgression.CustomEvents
                 if (transitionDelay > 0.0f)
                     yield return new WaitForSeconds(transitionDelay);
 
-                if (transitionDuration <= 0.0f)
-                {
-                    LocalPlayerAgentSettings.Current.SetFogSettings(fogDataBlock);
-                }
-                else
-                {
-                    LocalPlayerAgentSettings.Current.SetTargetFogSettings(fogDataBlock);
-
-                    float currentFogBlend = 0f;
-
-                    while (currentFogBlend < 1.0f)
-                    {
-                        currentFogBlend += Clock.Delta * (1f / transitionDuration);
-                        LocalPlayerAgentSettings.Current.UpdateBlendTowardsTargetFogSetting(currentFogBlend);
-                        yield return null;
-                    }
-                }
+                EnvironmentStateManager.AttemptStartFogTransition(fogID, transitionDuration);
             }
         }
     }

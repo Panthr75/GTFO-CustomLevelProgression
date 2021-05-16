@@ -132,12 +132,22 @@
     <Compile Include="Lights\LightState.cs" />
     <Compile Include="Networking\NET.cs" />
     <Compile Include="Networking\NET_Packet.cs" />
-    <Compile Include="Networking\NET_Packet`1.cs" />
-    <Compile Include="Networking\NET_ProgressionReplicator.cs" />
+    <Compile Include="Networking\Progression\NET_ProgressionDataPacket.cs" />
+    <Compile Include="Networking\Progression\NET_ProgressionReplicator.cs" />
     <Compile Include="Networking\NET_Replicator.cs" />
     <Compile Include="Networking\pLevelState.cs" />
     <Compile Include="Networking\pProgressionData.cs" />
     <Compile Include="Networking\pProgressionDataRequest.cs" />
+    <Compile Include="Networking\Progression\NET_RequestProgressionDataPacket.cs" />
+    <Compile Include="Parsers\BooleanParser.cs" />
+    <Compile Include="Parsers\ByteParser.cs" />
+    <Compile Include="Parsers\DataBlockIDParser.cs" />
+    <Compile Include="Parsers\eLocalZoneIndexParser.cs" />
+    <Compile Include="Parsers\FloatParser.cs" />
+    <Compile Include="Parsers\Int32Parser.cs" />
+    <Compile Include="Parsers\LG_LayerTypeParser.cs" />
+    <Compile Include="Parsers\SoundIDParser.cs" />
+    <Compile Include="Parsers\UInt32Parser.cs" />
     <Compile Include="Patches\CM\CM_ExpeditionIconNew_Patch.cs" />
     <Compile Include="Patches\CM\CM_PageRundownNew_Patch.cs" />
     <Compile Include="Patches\CM\CM_PageRundownNew_Patch1.cs" />
@@ -152,6 +162,10 @@
     <Compile Include="Patches\GameStates\GS_ReadyToStopElevatorRidePatch.cs" />
     <Compile Include="Patches\GameStates\GS_StartupPatch.cs" />
     <Compile Include="Patches\GameStates\GS_StopElevatorRidePatch.cs" />
+    <Compile Include="Patches\LevelGen\CarryItemPickup_Core_StateChangePatch.cs" />
+    <Compile Include="Patches\LevelGen\GenericSmallPickupItem_Core_StateChangePatch.cs" />
+    <Compile Include="Patches\LevelGen\LG_ComputerTerminal_SetupUplinkPatch.cs" />
+    <Compile Include="Patches\LevelGen\LG_ComputerTerminal_SpecialCommandDonePatch.cs" />
     <Compile Include="Patches\LevelGen\LG_LightPatch.cs" />
     <Compile Include="Patches\LevelGen\LG_PowerGeneratorCorePatch.cs" />
     <Compile Include="Patches\LevelGen\LG_SecurityDoorPatch.cs" />
@@ -185,6 +199,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>COPY "$(TargetDir)$(TargetFileName)" "C:\Program Files (x86)\Steam\steamapps\common\GTFO\BepInEx\plugins\Test Plugin\$(TargetFileName)"</PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetDir)$(TargetFileName)" "C:\Program Files (x86)\Steam\steamapps\common\GTFO\BepInEx\plugins\Test Plugin\$(TargetFileName)"
+COPY "$(TargetDir)$(TargetFileName)" "C:\Users\fluff\source\repos\GTFO Modding Plugins\RundownExperimentCore\Lib\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

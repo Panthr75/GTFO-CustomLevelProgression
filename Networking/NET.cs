@@ -42,11 +42,10 @@ namespace CustomLevelProgression.Networking
             return false;
         }
 
-        public static byte[] GetBytesFromPacket<T>(T packet, ExtendedPlayerAgent owner, byte packetID) where T : struct
+        public static byte[] GetBytesFromPacket<T>(T packet, ushort key, byte packetID) where T : struct
         {
             int size = Marshal.SizeOf(packet);
-            ushort ownerRepID = owner.m_replicator.Key;
-            var idBytes = BitConverter.GetBytes(ownerRepID);
+            var idBytes = BitConverter.GetBytes(key);
             int offset = JUNK_SIZE + idBytes.Length;
             byte[] packetBytes = new byte[size + offset + 1];
 

@@ -1,6 +1,8 @@
 ﻿using AK;
 using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Parsers;
 using CustomLevelProgression.Utilities;
+using GameData;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -16,63 +18,30 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate ActivateSurvivalWaveEvent");
 
-            var ev = Event;
-            string typeName;
-            object waveID = null;
-            object populationID = null;
-            object delay = null;
-            object triggerAlarm = null;
+            string waveID;
+            string populationID;
+            string delay;
+            string triggerAlarm;
 
-            if (ev.Parameters.TryGetValue("WaveID", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("WaveID", out waveID);
-
-                if (waveID != null)
-                    waveID = Convert.ChangeType(waveID, type);
-            }
-
-            if (ev.Parameters.TryGetValue("PopulationID", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("PopulationID", out populationID);
-
-                if (populationID != null)
-                    populationID = Convert.ChangeType(populationID, type);
-            }
-
-            if (ev.Parameters.TryGetValue("Delay", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("Delay", out delay);
-
-                if (delay != null)
-                    delay = Convert.ChangeType(delay, type);
-            }
-
-            if (ev.Parameters.TryGetValue("TriggerAlarm", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("TriggerAlarm", out triggerAlarm);
-
-                if (triggerAlarm != null)
-                    triggerAlarm = Convert.ChangeType(triggerAlarm, type);
-            }
+            info.Parameters.TryGetValue("SettingsID", out waveID);
+            info.Parameters.TryGetValue("PopulationID", out populationID);
+            info.Parameters.TryGetValue("Delay", out delay);
+            info.Parameters.TryGetValue("TriggerAlarm", out triggerAlarm);
 
             Activate(waveID, populationID, delay, triggerAlarm);
         }
 
-        public void Activate(object waveID = null, object populationID = null, object delay = null, object triggerAlarm = null)
+        public void Activate(string settingsID = null, string populationID = null, string delay = null, string triggerAlarm = null)
         {
-            Activate(waveID == null ? 0U : (uint)waveID, populationID == null ? 0U : (uint)populationID, delay == null ? 0.0f : (float)delay, triggerAlarm == null ? false : (bool)triggerAlarm);
+            Activate(DataBlockIDParser<SurvivalWaveSettingsDataBlock>.Parse(settingsID), DataBlockIDParser<SurvivalWaveSettingsDataBlock>.Parse(populationID), FloatParser.Parse(delay), BooleanParser.Parse(triggerAlarm));
         }
 
-        public void Activate(uint waveID, uint populationID, float delay, bool triggerAlarm)
+        public void Activate(uint settingsID, uint populationID, float delay, bool triggerAlarm)
         {
-            GameInfo.StartCoroutine(ActivateSequence(waveID, populationID, delay, triggerAlarm), true);
+            GameInfo.StartCoroutine(ActivateSequence(settingsID, populationID, delay, triggerAlarm), true);
         }
 
-        private IEnumerator ActivateSequence(uint waveID, uint populationID, float delay, bool triggerAlarm)
+        private IEnumerator ActivateSequence(uint settingsID, uint populationID, float delay, bool triggerAlarm)
         {
             var localPlayer = ExtendedPlayerAgent.LocalPlayer;
             if (localPlayer == null)
@@ -85,7 +54,7 @@ namespace CustomLevelProgression.CustomEvents
 
                 if (localPlayer.Owner.IsMaster)
                 {
-                    Mastermind.Current.TriggerSurvivalWave(localPlayer.CourseNode, waveID, populationID, out ushort _, spawnDelay: 2f);
+                    Mastermind.Current.TriggerSurvivalWave(localPlayer.CourseNode, settingsID, populationID, out ushort _, spawnDelay: 2f);
                 }
 
                 if (triggerAlarm)

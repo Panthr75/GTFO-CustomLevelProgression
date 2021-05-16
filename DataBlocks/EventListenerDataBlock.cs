@@ -14,8 +14,8 @@ namespace CustomLevelProgression.DataBlocks
         public bool LevelLoad_IncludeJoins { get; set; }
         public bool LevelLoad_IncludeInitialDrop { get; set; }
 
-        public int InsertCell_RequiredCount { get; set; }
-        public LG_LayerType InsertCell_Layer { get; set; }
+        public int ObjectiveItemSolved_RequiredCount { get; set; }
+        public LG_LayerType ObjectiveItemSolved_Layer { get; set; }
 
         public List<LG_LayerType> CompleteObjective_Layers { get; set; }
 

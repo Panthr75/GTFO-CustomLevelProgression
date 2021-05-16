@@ -49,7 +49,16 @@ namespace CustomLevelProgression.Lights
                 this.m_intensity = Random.Range(data.MinIntensity, data.MaxIntensity);
 
                 if (data.RelativeIntensity)
-                    this.m_intensity *= controller.GetIntensity();
+                {
+                    if (data.RelativeToStartIntensity)
+                    {
+                        this.m_intensity *= controller.StartIntensity;
+                    }
+                    else
+                    {
+                        this.m_intensity *= controller.GetIntensity();
+                    }
+                }
             }
             else
             {
@@ -67,6 +76,19 @@ namespace CustomLevelProgression.Lights
             this.activated = false;
             this.transitioned = false;
             this.moveToNextState = false;
+        }
+
+        public virtual void ForceEnd()
+        {
+            if (!this.activated)
+            {
+                this.Controller.SetAnimatorEnabled(this.m_lightAnimatorEnabled);
+            }
+            if (!this.transitioned)
+            {
+                this.Controller.SetCurrentColor(this.m_color);
+                this.Controller.SetCurrentIntensity(this.m_intensity);
+            }
         }
 
         public virtual void Tick()

@@ -11,6 +11,7 @@ namespace CustomLevelProgression.Patches.CM
         public static void Invoke(CM_PageRundown_New __instance)
         {
             var completionData = CompletionData.LoadFromCache();
+            Utilities.Log.Message("Load completion data");
 
             var progression = RundownManager.RundownProgression;
             if (progression != null && __instance.m_expIconsAll != null)

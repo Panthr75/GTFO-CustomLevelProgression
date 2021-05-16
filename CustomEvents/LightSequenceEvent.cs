@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Parsers;
 using CustomLevelProgression.Utilities;
 using System;
 using System.Collections;
@@ -14,25 +15,16 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate LightSequenceEvent");
 
-            var ev = Event;
-            string typeName;
-            object sequenceID = null;
+            string sequenceID;
 
-            if (ev.Parameters.TryGetValue("SequenceID", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("SequenceID", out sequenceID);
-
-                if (sequenceID != null)
-                    sequenceID = Convert.ChangeType(sequenceID, type);
-            }
+            info.Parameters.TryGetValue("SequenceID", out sequenceID);
 
             Activate(sequenceID);
         }
 
-        public void Activate(object sequenceID = null)
+        public void Activate(string sequenceID = null)
         {
-            Activate(sequenceID == null ? 0U : (uint)sequenceID);
+            Activate(UInt32Parser.Parse(sequenceID));
         }
 
         public void Activate(uint sequenceID)

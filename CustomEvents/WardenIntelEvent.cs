@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Parsers;
 using CustomLevelProgression.Utilities;
 using System;
 using System.Collections;
@@ -14,45 +15,20 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate WardenIntelEvent");
             
-            var ev = Event;
-            string typeName;
-            object text = null;
-            object displayDuration = null;
-            object isObjectiveText = null;
+            string text;
+            string displayDuration;
+            string isObjectiveText;
 
-            if (ev.Parameters.TryGetValue("Text", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("Text", out text);
-
-                if (text != null)
-                    text = Convert.ChangeType(text, type);
-            }
-
-            if (ev.Parameters.TryGetValue("DisplayDuration", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("DisplayDuration", out displayDuration);
-
-                if (displayDuration != null)
-                    displayDuration = Convert.ChangeType(displayDuration, type);
-            }
-
-            if (ev.Parameters.TryGetValue("IsObjectiveText", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("IsObjectiveText", out isObjectiveText);
-
-                if (isObjectiveText != null)
-                    isObjectiveText = Convert.ChangeType(isObjectiveText, type);
-            }
+            info.Parameters.TryGetValue("Text", out text);
+            info.Parameters.TryGetValue("DisplayDuration", out displayDuration);
+            info.Parameters.TryGetValue("IsObjectiveText", out isObjectiveText);
 
             Activate(text, displayDuration, isObjectiveText);
         }
 
-        public void Activate(object text = null, object displayDuration = null, object isObjectiveText = null)
+        public void Activate(string text = null, string displayDuration = null, string isObjectiveText = null)
         {
-            Activate(text == null ? "" : (string)text, displayDuration == null ? 0.0f : (float)displayDuration, isObjectiveText != null && (bool)isObjectiveText);
+            Activate(text == null ? "" : text, FloatParser.Parse(displayDuration), BooleanParser.Parse(isObjectiveText));
         }
 
         public void Activate(string text, float displayDuration, bool isObjectiveText)

@@ -21,6 +21,8 @@ namespace CustomLevelProgression.DataBlocks
         public Color Color { get; set; }
 
         public bool RelativeIntensity { get; set; }
+        public bool RelativeToStartIntensity { get; set; }
+
         public float MinIntensity { get; set; }
         public float MaxIntensity { get; set; }
 

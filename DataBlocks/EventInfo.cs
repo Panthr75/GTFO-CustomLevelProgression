@@ -7,7 +7,7 @@ namespace CustomLevelProgression.DataBlocks
         public uint EventID { get; set; }
         public bool RequiresProgression { get; set; }
         public List<ProgressionRequirement> RequiredProgression { get; set; }
-        public Dictionary<string, object> Parameters { get; set; }
+        public Dictionary<string, string> Parameters { get; set; }
         public bool SkipIfMaster { get; set; }
         public bool SkipIfClient { get; set; }
         public float ActivationDelay { get; set; }

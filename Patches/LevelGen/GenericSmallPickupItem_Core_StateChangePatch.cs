@@ -1,18 +1,18 @@
 ﻿using CustomLevelProgression.DataBlocks;
-using CustomLevelProgression.Utilities;
 using HarmonyLib;
 using LevelGeneration;
+using Player;
 
 namespace CustomLevelProgression.Patches.LevelGen
 {
-    public class LG_PowerGeneratorCorePatch : CustomPatch
+    public class GenericSmallPickupItem_Core_StateChangePatch : CustomPatch
     {
-        public LG_PowerGeneratorCorePatch(Harmony harmony) : base(harmony, PatchType.Postfix, typeof(LG_PowerGenerator_Core), nameof(LG_PowerGenerator_Core.OnStateChange))
+        public GenericSmallPickupItem_Core_StateChangePatch(Harmony harmony) : base(harmony, PatchType.Postfix, typeof(GenericSmallPickupItem_Core), nameof(GenericSmallPickupItem_Core.OnSyncStateChange))
         { }
 
-        public static void Invoke(LG_PowerGenerator_Core __instance, pPowerGeneratorState oldState, pPowerGeneratorState newState)
+        public static void Invoke(GenericSmallPickupItem_Core __instance, ePickupItemStatus status)
         {
-            if (oldState.status != newState.status && newState.status == ePowerGeneratorStatus.Powered && __instance.ObjectiveItemSolved)
+            if (status == ePickupItemStatus.PickedUp)
             {
                 var blocks = EventListenerDataBlock.GetAllBlocks();
                 var exp = RundownManager.GetActiveExpeditionData();
@@ -21,19 +21,23 @@ namespace CustomLevelProgression.Patches.LevelGen
                 {
                     if (block.Type == EventListenerType.ObjectiveItemSolved)
                     {
+                        uint itemId = WardenObjectiveManager.ActiveWardenObjective(__instance.SpawnNode.LayerType).Gather_ItemId;
+
                         foreach (var expedition in block.ForExpeditions)
                         {
                             if (expedition.ExpeditionIndex == exp.expeditionIndex && expedition.Tier == exp.tier)
                             {
                                 if (__instance.SpawnNode.LayerType == block.ObjectiveItemSolved_Layer)
                                 {
-                                    var items = WardenObjectiveManager.Current.m_objectiveItemCollection[__instance.SpawnNode.LayerType];
                                     int count = 0;
-
-                                    foreach (var item in items)
+                                    for (int index = 0; index < SNetwork.SNet.Slots.SlottedPlayers.Count; index++)
                                     {
-                                        if (item != null && item.ObjectiveItemSolved)
-                                            count++;
+                                        SNetwork.SNet_Player slottedPlayer = SNetwork.SNet.Slots.SlottedPlayers[index];
+                                        if (slottedPlayer.IsInSlot)
+                                        {
+                                            PlayerBackpack backpack = PlayerBackpackManager.GetBackpack(slottedPlayer);
+                                            count += backpack.CountPocketItem(itemId);
+                                        }
                                     }
 
                                     if (block.ObjectiveItemSolved_RequiredCount == count)
@@ -47,6 +51,8 @@ namespace CustomLevelProgression.Patches.LevelGen
 
                     }
                 }
+
+                
             }
         }
     }

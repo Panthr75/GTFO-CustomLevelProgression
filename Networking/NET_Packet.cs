@@ -2,15 +2,13 @@
 {
     public abstract class NET_Packet
     {
-        public uint PacketID { get; set; }
+        public byte ID { get; set; }
 
-        public virtual void Setup(uint packetID)
+        public NET_Packet(byte id)
         {
-            this.PacketID = packetID;
+            this.ID = id;
         }
 
-        public virtual void ProcessBytes(byte[] bytes)
-        {
-        }
+        public abstract void HandleBytes(byte[] bytes, int offset);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Agents;
 using CustomLevelProgression.Networking;
+using CustomLevelProgression.Networking.Progression;
 using CustomLevelProgression.Wrappers.WPlayer;
 using Player;
 using System.Collections.Generic;

@@ -1,18 +1,18 @@
 ﻿using CustomLevelProgression.DataBlocks;
-using CustomLevelProgression.Utilities;
 using HarmonyLib;
 using LevelGeneration;
+using Player;
 
 namespace CustomLevelProgression.Patches.LevelGen
 {
-    public class LG_PowerGeneratorCorePatch : CustomPatch
+    public class CarryItemPickup_Core_StateChangePatch : CustomPatch
     {
-        public LG_PowerGeneratorCorePatch(Harmony harmony) : base(harmony, PatchType.Postfix, typeof(LG_PowerGenerator_Core), nameof(LG_PowerGenerator_Core.OnStateChange))
+        public CarryItemPickup_Core_StateChangePatch(Harmony harmony) : base(harmony, PatchType.Postfix, typeof(CarryItemPickup_Core), nameof(CarryItemPickup_Core.OnSyncStateChange))
         { }
 
-        public static void Invoke(LG_PowerGenerator_Core __instance, pPowerGeneratorState oldState, pPowerGeneratorState newState)
+        public static void Invoke(CarryItemPickup_Core __instance, ePickupItemStatus status)
         {
-            if (oldState.status != newState.status && newState.status == ePowerGeneratorStatus.Powered && __instance.ObjectiveItemSolved)
+            if (status == ePickupItemStatus.PickedUp)
             {
                 var blocks = EventListenerDataBlock.GetAllBlocks();
                 var exp = RundownManager.GetActiveExpeditionData();

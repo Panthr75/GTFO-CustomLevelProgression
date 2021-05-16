@@ -1,4 +1,5 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Parsers;
 using CustomLevelProgression.Utilities;
 using GameData;
 using LevelGeneration;
@@ -15,51 +16,25 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate OpenSecurityDoorEvent");
 
-            var ev = Event;
-            string typeName;
-            object layer = null;
-            object zoneIndex = null;
-            object buildFromIndex = null;
+            string layer;
+            string zoneIndex;
+            string buildFromIndex;
 
-            if (ev.Parameters.TryGetValue("Layer", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("Layer", out layer);
-
-                if (layer != null)
-                    layer = (LG_LayerType)Convert.ChangeType(layer, type);
-            }
-
-            if (ev.Parameters.TryGetValue("ZoneIndex", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("ZoneIndex", out zoneIndex);
-
-                if (zoneIndex != null)
-                    zoneIndex = (eLocalZoneIndex)Convert.ChangeType(zoneIndex, type);
-            }
-
-            if (ev.Parameters.TryGetValue("BuildFromIndex", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("BuildFromIndex", out buildFromIndex);
-
-                if (buildFromIndex != null)
-                    buildFromIndex = (eLocalZoneIndex)Convert.ChangeType(buildFromIndex, type);
-            }
+            info.Parameters.TryGetValue("Layer", out layer);
+            info.Parameters.TryGetValue("ZoneIndex", out zoneIndex);
+            info.Parameters.TryGetValue("BuildFromIndex", out buildFromIndex);
 
             Activate(layer, zoneIndex, buildFromIndex);
         }
 
-        public void Activate(object layer = null, object zoneIndex = null, object buildFromIndex = null)
+        public void Activate(string layer = null, string zoneIndex = null, string buildFromIndex = null)
         {
-            Activate(layer == null ? LG_LayerType.MainLayer : (LG_LayerType)layer, zoneIndex == null ? eLocalZoneIndex.Zone_0 : (eLocalZoneIndex)zoneIndex, buildFromIndex == null ? eLocalZoneIndex.Zone_0 : (eLocalZoneIndex)buildFromIndex);
+            Activate(LG_LayerTypeParser.Parse(layer), eLocalZoneIndexParser.Parse(zoneIndex), eLocalZoneIndexParser.Parse(buildFromIndex));
         }
 
         public void Activate(LG_LayerType layer, eLocalZoneIndex zoneIndex, eLocalZoneIndex buildFromIndex)
         {
-            var door = GameInfo.GetSecurityDoor(layer, zoneIndex, buildFromIndex);
-            door?.m_sync.AttemptDoorInteraction(eDoorInteractionType.Open);
+            GameInfo.OpenSecurityDoor(layer, zoneIndex, buildFromIndex);
         }
     }
 }

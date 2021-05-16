@@ -1,7 +1,6 @@
 ﻿using CustomLevelProgression.DataBlocks;
+using CustomLevelProgression.Parsers;
 using CustomLevelProgression.Utilities;
-using System;
-using System.Collections;
 
 namespace CustomLevelProgression.CustomEvents
 {
@@ -14,25 +13,16 @@ namespace CustomLevelProgression.CustomEvents
         {
             Log.Message("Activate SoundEvent");
 
-            var ev = Event;
-            string typeName;
-            object sound = null;
+            string sound;
 
-            if (ev.Parameters.TryGetValue("Sound", out typeName))
-            {
-                Type type = SearchForType(typeName);
-                info.Parameters.TryGetValue("Sound", out sound);
-
-                if (sound != null)
-                    sound = Convert.ChangeType(sound, type);
-            }
+            info.Parameters.TryGetValue("Sound", out sound);
 
             Activate(sound);
         }
 
-        public void Activate(object sound = null)
+        public void Activate(string sound = null)
         {
-            Activate(sound == null ? 0U : (uint)sound);
+            Activate(sound == null ? 0U : SoundIDParser.Parse(sound));
         }
 
         public void Activate(uint sound)
