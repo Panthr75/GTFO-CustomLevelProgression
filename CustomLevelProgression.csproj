@@ -77,11 +77,17 @@
     <Reference Include="UnhollowerBaseLib">
       <HintPath>Lib\UnhollowerBaseLib.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Lib\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>Lib\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>Lib\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Lib\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Utils-ASM">
       <HintPath>Lib\Utils-ASM.dll</HintPath>
@@ -149,6 +155,7 @@
     <Compile Include="Parsers\SoundIDParser.cs" />
     <Compile Include="Parsers\UInt32Parser.cs" />
     <Compile Include="Patches\CM\CM_ExpeditionIconNew_Patch.cs" />
+    <Compile Include="Patches\CM\CM_ExpeditionWindow_Patch.cs" />
     <Compile Include="Patches\CM\CM_PageRundownNew_Patch.cs" />
     <Compile Include="Patches\CM\CM_PageRundownNew_Patch1.cs" />
     <Compile Include="Patches\CustomPatch.cs" />

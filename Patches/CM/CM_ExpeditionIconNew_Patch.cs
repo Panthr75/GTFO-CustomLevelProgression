@@ -19,7 +19,9 @@ namespace CustomLevelProgression.Patches.CM
                 var expDataBlock = __instance.DataBlock;
 
                 if (completionData.highCompletes > 0 || completionData.extremeCompletes > 0 || completionData.overloadCompletes > 0 || completionData.peCompletes > 0)
-                    status = eExpeditionIconStatus.PlayedNotFinished;
+                {
+                    status = eExpeditionIconStatus.PlayedAndFinished;
+                }
 
                 mainFinishCount = completionData.highCompletes.ToString();
                 secondFinishCount = RundownManager.HasSecondaryLayer(expDataBlock) ? completionData.extremeCompletes.ToString() : "-";

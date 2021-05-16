@@ -10,7 +10,7 @@ namespace CustomLevelProgression.Patches.CM
         public CM_PageRundownNew_Patch(Harmony harmony) : base(harmony, PatchType.Prefix, typeof(CM_PageRundown_New), nameof(CM_PageRundown_New.UpdateTierIconsWithProgression))
         { }
 
-        public static void Invoke(CM_PageRundown_New __instance, Il2CppSystem.Collections.Generic.List<CM_ExpeditionIcon_New> tierIcons, CM_RundownTierMarker tierMarker, ref bool thisTierUnlocked)
+        public static bool Invoke(CM_PageRundown_New __instance, Il2CppSystem.Collections.Generic.List<CM_ExpeditionIcon_New> tierIcons, CM_RundownTierMarker tierMarker, bool thisTierUnlocked)
         {
             if (tierIcons.Count > 0)
             {
@@ -42,15 +42,19 @@ namespace CustomLevelProgression.Patches.CM
                     int overload = completionData.TotalCompletes_Overload;
                     int pe = completionData.TotalCompletes_PE;
 
-                    //__instance.m_tierMarkerSectorSummary.SetSectorIconTextForMain($"{high}<size=50%><color=#FFFFFF33><size=55%>/{progressionReq.MainSectors}</color></size>");
-                    //__instance.m_tierMarkerSectorSummary.SetSectorIconTextForSecondary(num2.ToString() + "<size=50%><color=#FFFFFF33><size=55%>/" + (object)num5 + "</color></size>");
-                    //__instance.m_tierMarkerSectorSummary.SetSectorIconTextForThird(num3.ToString() + "<size=50%><color=#FFFFFF33><size=55%>/" + (object)num6 + "</color></size>");
-                    //__instance.m_tierMarkerSectorSummary.SetSectorIconTextForAllCleared(currAllClear.ToString() + "<size=50%><color=#FFFFFF33><size=55%>/" + (object)num7 + "</color></size>");
-
                     thisTierUnlocked = high >= progressionReq.MainSectors && extreme >= progressionReq.SecondarySectors && overload >= progressionReq.ThirdSectors && pe >= progressionReq.AllClearedSectors;
-                    //tierMarker.SetStatus(thisTierUnlocked ? eRundownTierMarkerStatus.Unlocked : eRundownTierMarkerStatus.Locked);
+                    tierMarker.SetStatus(thisTierUnlocked ? eRundownTierMarkerStatus.Unlocked : eRundownTierMarkerStatus.Locked);
+                }
+
+
+                for (int index = 0; index < tierIcons.Count; ++index)
+                {
+                    CM_ExpeditionIcon_New tierIcon = tierIcons[index];
+                    __instance.SetIconStatus(tierIcon, thisTierUnlocked ? eExpeditionIconStatus.NotPlayed : eExpeditionIconStatus.TierLocked);
                 }
             }
+
+            return false;
         }
     }
 }
