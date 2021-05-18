@@ -33,7 +33,7 @@ namespace CustomLevelProgression.DataBlocks
                         CheckType = ProgressionCheckType.LessThanOrEqual;
                     else
                     {
-                        CheckType = ProgressionCheckType.NotEquals
+                        CheckType = ProgressionCheckType.NotEquals;
                     }
                 }
                 else

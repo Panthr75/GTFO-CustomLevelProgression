@@ -118,6 +118,7 @@
     <Compile Include="DataBlocks\EventListenerDataBlock.cs" />
     <Compile Include="DataBlocks\EventListenerType.cs" />
     <Compile Include="DataBlocks\ExpeditionCargoCageSettings.cs" />
+    <Compile Include="DataBlocks\ExpeditionCompletionSettings.cs" />
     <Compile Include="DataBlocks\ExpeditionSettingsDataBlock.cs" />
     <Compile Include="DataBlocks\LayerLightSequenceOverrides.cs" />
     <Compile Include="DataBlocks\LightSequenceDataBlock.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="DataBlocks\LightStateDataBlock.cs" />
     <Compile Include="DataBlocks\GeneralExpeditionInfo.cs" />
     <Compile Include="DataBlocks\ConsumableCargoInfo.cs" />
+    <Compile Include="DataBlocks\ProgressionUpdateInfo.cs" />
     <Compile Include="DataBlocks\ZoneLightSequenceOverrides.cs" />
     <Compile Include="EventSequenceManager.cs" />
     <Compile Include="ExtendedPlayerAgent.cs" />
