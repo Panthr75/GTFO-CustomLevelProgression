@@ -8,7 +8,7 @@ namespace CustomLevelProgression.DataBlocks
     {
         public EventListenerType Type { get; set; }
         public string Header { get; set; }
-        public List<ListenerExpedition> ForExpeditions { get; set; }
+        public List<GeneralExpeditionInfo> ForExpeditions { get; set; }
         public uint EventSequenceOnActivate { get; set; }
 
         public bool LevelLoad_IncludeJoins { get; set; }
@@ -19,8 +19,11 @@ namespace CustomLevelProgression.DataBlocks
 
         public List<LG_LayerType> CompleteObjective_Layers { get; set; }
 
-        public LG_LayerType OpenSecurityDoor_Layer { get; set; }
-        public eLocalZoneIndex OpenSecurityDoor_ZoneIndex { get; set; }
-        public eLocalZoneIndex OpenSecurityDoor_BuildFromIndex { get; set; }
+        public LG_LayerType SecurityDoor_Layer { get; set; }
+        public eLocalZoneIndex SecurityDoor_ZoneIndex { get; set; }
+        public eLocalZoneIndex SecurityDoor_BuildFromIndex { get; set; }
+
+        public List<EnemyWakeUpLayer> EnemyWakeUp_ForLayers { get; set; }
+        public uint EnemyWakeup_EnemyID { get; set; }
     }
 }

@@ -49,10 +49,12 @@ namespace CustomLevelProgression.Patches.LevelGen
 
         public static void Invoke(LG_ComputerTerminal __instance)
         {
-            __instance.UplinkPuzzle.OnPuzzleSolved = (Il2CppSystem.Action)__instance.UplinkPuzzle.OnPuzzleSolved.CombineImpl((Il2CppSystem.Action)new Action(() =>
+            var listener = (Il2CppSystem.Action)new Action(() =>
             {
                 OnUplinkSolved(__instance);
-            }));
+            });
+
+            __instance.UplinkPuzzle.OnPuzzleSolved = __instance.UplinkPuzzle.OnPuzzleSolved == null ? listener : (Il2CppSystem.Action)__instance.UplinkPuzzle.OnPuzzleSolved.CombineImpl(listener);
         }
     }
 }

@@ -308,6 +308,16 @@ namespace CustomLevelProgression
             }
         }
 
+        public void Save()
+        {
+            if (ConfigManager.HasCustomContent)
+            {
+                var filePath = Path.Combine(ConfigManager.CustomPath, "Rundown_Progression.data");
+
+                File.WriteAllText(filePath, Newtonsoft.Json.JsonConvert.SerializeObject(this));
+            }
+        }
+
         public static ProgressionData LoadFromFile()
         {
             if (ConfigManager.HasCustomContent)

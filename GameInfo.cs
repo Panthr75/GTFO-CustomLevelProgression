@@ -44,6 +44,8 @@ namespace CustomLevelProgression
             if (requirement == null)
                 return true;
 
+            requirement.Setup();
+
             int value = GetProgressionValue(requirement.Tier, requirement.ExpeditionIndex);
             
             switch (requirement.CheckType)

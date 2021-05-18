@@ -1,19 +1,24 @@
-﻿using CustomLevelProgression.DataBlocks;
+﻿using AIGraph;
+using CustomLevelProgression.DataBlocks;
 using HarmonyLib;
 using LevelGeneration;
 using Player;
 
 namespace CustomLevelProgression.Patches.LevelGen
 {
-    public class GenericSmallPickupItem_Core_StateChangePatch : CustomPatch
+    public class LG_PickupItem_Sync_StateChangePatch : CustomPatch
     {
-        public GenericSmallPickupItem_Core_StateChangePatch(Harmony harmony) : base(harmony, PatchType.Postfix, typeof(GenericSmallPickupItem_Core), nameof(GenericSmallPickupItem_Core.OnSyncStateChange))
+        public LG_PickupItem_Sync_StateChangePatch(Harmony harmony) : base(harmony, PatchType.Prefix, typeof(LG_PickupItem_Sync), nameof(LG_PickupItem_Sync.OnStateChange))
         { }
 
-        public static void Invoke(GenericSmallPickupItem_Core __instance, ePickupItemStatus status)
+        public static void Invoke(LG_PickupItem_Sync __instance, pPickupItemState oldState, pPickupItemState newState)
         {
-            if (status == ePickupItemStatus.PickedUp)
+            if (oldState.status != newState.status && newState.status == ePickupItemStatus.PickedUp)
             {
+                AIG_CourseNode spawnNode = __instance.item.TryCast<CarryItemPickup_Core>()?.SpawnNode ?? __instance.item.TryCast<GenericSmallPickupItem_Core>()?.SpawnNode;
+                if (spawnNode == null)
+                    return;
+
                 var blocks = EventListenerDataBlock.GetAllBlocks();
                 var exp = RundownManager.GetActiveExpeditionData();
 
@@ -21,23 +26,19 @@ namespace CustomLevelProgression.Patches.LevelGen
                 {
                     if (block.Type == EventListenerType.ObjectiveItemSolved)
                     {
-                        uint itemId = WardenObjectiveManager.ActiveWardenObjective(__instance.SpawnNode.LayerType).Gather_ItemId;
-
                         foreach (var expedition in block.ForExpeditions)
                         {
                             if (expedition.ExpeditionIndex == exp.expeditionIndex && expedition.Tier == exp.tier)
                             {
-                                if (__instance.SpawnNode.LayerType == block.ObjectiveItemSolved_Layer)
+                                if (spawnNode.LayerType == block.ObjectiveItemSolved_Layer)
                                 {
+                                    var items = WardenObjectiveManager.Current.m_objectiveItemCollection[spawnNode.LayerType];
                                     int count = 0;
-                                    for (int index = 0; index < SNetwork.SNet.Slots.SlottedPlayers.Count; index++)
+
+                                    foreach (var item in items)
                                     {
-                                        SNetwork.SNet_Player slottedPlayer = SNetwork.SNet.Slots.SlottedPlayers[index];
-                                        if (slottedPlayer.IsInSlot)
-                                        {
-                                            PlayerBackpack backpack = PlayerBackpackManager.GetBackpack(slottedPlayer);
-                                            count += backpack.CountPocketItem(itemId);
-                                        }
+                                        if (item != null && item.ObjectiveItemSolved)
+                                            count++;
                                     }
 
                                     if (block.ObjectiveItemSolved_RequiredCount == count)
@@ -51,8 +52,6 @@ namespace CustomLevelProgression.Patches.LevelGen
 
                     }
                 }
-
-                
             }
         }
     }

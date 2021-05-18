@@ -9,6 +9,34 @@ namespace CustomLevelProgression.Patches.CM
         public CM_ExpeditionWindow_Patch(Harmony harmony) : base(harmony, PatchType.Prefix, typeof(CM_ExpeditionWindow), nameof(CM_ExpeditionWindow.SetVisible), new System.Type[] { typeof(bool), typeof(bool) })
         { }
 
+        private static void SetupIcon(CM_ExpeditionSectorIcon icon, bool completed, LG_LayerType layer)
+        {
+            var bgIcon = icon.m_iconMainBG;
+            var skullIcon = icon.m_iconMainSkull;
+
+            switch (layer)
+            {
+                case LG_LayerType.SecondaryLayer:
+                    bgIcon = icon.m_iconSecondaryBG;
+                    skullIcon = icon.m_iconSecondarySkull;
+                    break;
+                case LG_LayerType.ThirdLayer:
+                    bgIcon = icon.m_iconThirdBG;
+                    skullIcon = icon.m_iconThirdSkull;
+                    break;
+            }
+
+            var color = bgIcon.color;
+            color.a = completed ? 0.5f : 0.3f;
+            bgIcon.color = color;
+
+            color = skullIcon.color;
+            color.a = completed ? 0.8f : 0.4f;
+            bgIcon.color = color;
+
+            icon.m_isCleared = completed;
+        }
+
         public static bool Invoke(CM_ExpeditionWindow __instance, bool visible, bool inMenuBar)
         {
             __instance.gameObject.SetActive(visible);
@@ -33,7 +61,7 @@ namespace CustomLevelProgression.Patches.CM
                 float delay1 = 1.8f;
                 float num1 = 0.4f;
                 __instance.UpdateProgression();
-                __instance.m_sectorIconMain.m_isCleared = completionData.highCompletes > 0;
+                SetupIcon(__instance.m_sectorIconMain, completionData.highCompletes > 0, LG_LayerType.MainLayer);
                 __instance.m_sectorIconMain.SetVisible(false);
                 __instance.m_sectorIconSecond.SetVisible(false);
                 __instance.m_sectorIconThird.SetVisible(false);
@@ -46,13 +74,13 @@ namespace CustomLevelProgression.Patches.CM
                 float delay2 = delay1 + num1;
                 if (RundownManager.HasSecondaryLayer(__instance.m_data))
                 {
-                    __instance.m_sectorIconSecond.m_isCleared = completionData.highCompletes > 0;
+                    SetupIcon(__instance.m_sectorIconSecond, completionData.extremeCompletes > 0, LG_LayerType.SecondaryLayer);
                     __instance.m_sectorIconSecond.BlinkIn(delay2);
                     delay2 += num1;
                 }
                 if (RundownManager.HasThirdLayer(__instance.m_data))
                 {
-                    __instance.m_sectorIconThird.m_isCleared = completionData.overloadCompletes > 0;
+                    SetupIcon(__instance.m_sectorIconThird, completionData.overloadCompletes > 0, LG_LayerType.ThirdLayer);
                     __instance.m_sectorIconThird.BlinkIn(delay2);
                     delay2 += num1;
                 }

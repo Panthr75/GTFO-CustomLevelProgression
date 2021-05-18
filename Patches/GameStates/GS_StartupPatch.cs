@@ -16,6 +16,7 @@ namespace CustomLevelProgression.Patches.GameStates
             EventSequenceDataBlock.Load();
             LightSequenceDataBlock.Load();
             LightStateDataBlock.Load();
+            ExpeditionSettingsDataBlock.Load();
         }
     }
 }
